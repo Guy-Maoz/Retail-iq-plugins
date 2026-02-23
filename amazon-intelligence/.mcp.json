@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "similarweb": {
+      "type": "http",
+      "url": "https://mcp.similarweb.com/mcp"
+    },
+    "slack": {
+      "type": "http",
+      "url": "https://mcp.slack.com/mcp"
+    }
+  }
+}
