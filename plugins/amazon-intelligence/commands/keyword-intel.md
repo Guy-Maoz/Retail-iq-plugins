@@ -32,13 +32,17 @@ Load `BRAND_PROFILE.md`. Based on argument:
 - For each competitor, `get-brands-top-keywords-agg` — compare keyword portfolios
 - Identify user's unique keywords, shared keywords, and competitor-only keywords
 
-### 2C. Gap analysis
+### 2C. Gap analysis (quick mode)
 
-- `get-categories-top-keywords-agg` with `category`, `limit: 50` — what the market searches for
-- `get-brands-top-keywords-agg` with user's `brand` — what user is visible for
-- Find category keywords where user has no presence
-- For each gap keyword, `get-keywords-top-brands-agg` to assess competition difficulty
+Quick keyword gap scan — category vs brand.
+
+- `get-categories-top-keywords-agg` with `category`, `domain: "amazon.com"`, `limit: 50`, `start_date`, `end_date` — what the market searches for
+- `get-brands-top-keywords-agg` with user's `brand`, `category`, `domain: "amazon.com"`, `limit: 50`, `start_date`, `end_date` — what user is visible for
+- Find category keywords where user has no presence — list the top 10 gaps by category rank
+- For each gap keyword, `get-keywords-top-brands-agg` with `keyword`, `domain: "amazon.com"` to assess competition difficulty
 - Score and rank opportunities: high demand + low competition = best bets
+
+**For comprehensive gap analysis**: Load `skills/keyword-gap/SKILL.md` and run the full keyword gap analysis. This includes competitor-level gaps, ASIN-level gaps, trend-based scoring, and tiered prioritization. Offer this to the user: "I found X keyword gaps in the quick scan. Would you like me to run a comprehensive keyword gap analysis that also compares against your competitors and maps gaps to specific ASINs?"
 
 ### 2D. ASIN keyword drivers
 
@@ -58,6 +62,14 @@ Load `BRAND_PROFILE.md`. Based on argument:
 **Threats**: Keywords where brand is losing share or new competitors are entering
 
 **Recommendations**: Concrete next steps (listing optimization, ad targeting, content)
+
+## Follow-up offers
+
+After presenting keyword intel results, offer relevant deeper analyses:
+
+- **From gap analysis**: "Would you like a comprehensive keyword gap report? This goes deeper with competitor gaps, ASIN-level mapping, and opportunity scoring." → Load `skills/keyword-gap/SKILL.md`
+- **From portfolio analysis**: "Want to see where competitors beat you on shared keywords?" → Load `skills/keyword-gap/SKILL.md`, run Analysis 1
+- **From keyword deep-dive**: "Should I check if this keyword represents a broader gap in your strategy?" → Load `skills/keyword-gap/SKILL.md`, run Analysis 4 for this keyword in context
 
 ## Output format
 

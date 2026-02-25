@@ -29,11 +29,14 @@ Understand what search terms drive traffic to specific products.
 
 ### Category keyword landscape
 
-Discover what shoppers in the category are searching for.
+Discover what shoppers in the category are searching for and spot coverage gaps.
 
-1. Call `get-categories-top-keywords-agg` with `category`, `domain: "amazon.com"`, `limit: 50`
-2. Compare against user's brand keywords — find gaps (category keywords where user has no presence)
-3. For high-opportunity gaps, call `get-keywords-top-brands-agg` to see who currently owns them
+1. Call `get-categories-top-keywords-agg` with `category`, `domain: "amazon.com"`, `limit: 50`, `start_date`, `end_date`
+2. Compare against user's brand keywords (from "Brand keyword portfolio" above) — flag keywords where user has no presence
+3. Calculate category keyword coverage: what percentage of the top 50 category keywords does the user's brand appear in?
+4. List the top 10 gap keywords (category keywords where user has no presence), ranked by category search share
+
+**For deep gap analysis**: This section provides a quick coverage overview. For comprehensive gap analysis including competitor comparisons, ASIN-level gaps, trend scoring, and prioritized action plans, load `skills/keyword-gap/SKILL.md`. Offer the user: "I found [X] category keywords where you have no presence. Want me to run a full keyword gap analysis to prioritize these and also check competitor-specific gaps?"
 
 ### Keyword deep-dive
 
@@ -55,11 +58,13 @@ Track search demand shifts over time.
 
 ## Opportunity scoring
 
-When presenting keyword opportunities, include:
+When presenting keyword opportunities from the analyses above, include these quick indicators:
 - **Search volume signal**: From keyword performance data
 - **Current brand presence**: Does user's brand appear in top brands for this keyword?
 - **Competition intensity**: How many strong brands compete for this keyword?
 - **Relevance**: Is this keyword aligned with the user's product portfolio?
+
+For full opportunity scoring with a 0-100 point system, tier classification (Quick wins / Strategic plays / Long shots), and trend analysis, use the `keyword-gap` skill's Analysis 4.
 
 ## Visual output
 

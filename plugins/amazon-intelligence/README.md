@@ -13,7 +13,8 @@ claude plugins add amazon-intelligence
 This plugin gives ecommerce teams an AI-powered Amazon intelligence partner that can:
 
 - **Competitive Intelligence** — Analyze competitor brands, compare search share of voice, discover keyword battlegrounds, and benchmark sales performance across your competitive set.
-- **Keyword Strategy** — Find high-value Amazon search keywords, identify gaps in your keyword coverage, track keyword trends, and see which brands and products win on specific search terms.
+- **Keyword Strategy** — Find high-value Amazon search keywords, track keyword trends, and see which brands and products win on specific search terms.
+- **Keyword Gap Analysis** — Comprehensive keyword gap analysis comparing your brand against competitors and the category. Identifies missing keywords at brand and ASIN level, scores opportunities, and prioritizes with actionable tiers.
 - **Category Intelligence** — Analyze category size and growth, understand market structure, identify top brands and products, and spot seasonal demand patterns.
 - **Product Analytics** — Track ASIN-level sales performance, identify keyword drivers for each product, classify your portfolio (stars, cash cows, rising stars), and benchmark against competing products.
 - **Brand Performance** — Monitor brand health with sales trends, search share tracking, portfolio optimization, and automated competitive alerts.
@@ -34,7 +35,8 @@ This plugin gives ecommerce teams an AI-powered Amazon intelligence partner that
 | Skill | What It Covers |
 |---|---|
 | `competitive-intelligence` | Share of voice, competitor benchmarking, keyword battlegrounds, competitor discovery |
-| `keyword-strategy` | Keyword portfolio, ASIN keyword drivers, category keyword landscape, gap analysis |
+| `keyword-strategy` | Keyword portfolio, ASIN keyword drivers, category keyword landscape, trend monitoring |
+| `keyword-gap` | Competitor keyword gaps, category gaps, ASIN-level gaps, opportunity scoring and prioritization |
 | `category-intelligence` | Category sizing, trend analysis, brand concentration, consumer demand signals |
 | `product-analytics` | ASIN performance, portfolio classification, competitive product comparison |
 | `brand-performance` | Brand health dashboard, trend analysis, search share, portfolio optimization |

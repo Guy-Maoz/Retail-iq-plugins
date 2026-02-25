@@ -19,12 +19,12 @@ A plugin marketplace for [Claude Code](https://docs.anthropic.com/en/docs/claude
 
 | Plugin | Description | Commands | Skills |
 |--------|-------------|----------|--------|
-| **[amazon-intelligence](plugins/amazon-intelligence/)** | Amazon category trends, competitive landscape, keyword opportunities, product performance, and brand health | 6 | 6 |
+| **[amazon-intelligence](plugins/amazon-intelligence/)** | Amazon category trends, competitive landscape, keyword opportunities, product performance, and brand health | 6 | 7 |
 
 ## Plugin Categories
 
 ### Analytics
-- **amazon-intelligence** — Full Amazon Shopper Intelligence suite powered by SimilarWeb data. Competitive benchmarking, keyword strategy, category analysis, ASIN tracking, and brand monitoring for ecommerce teams.
+- **amazon-intelligence** — Full Amazon Shopper Intelligence suite powered by SimilarWeb data. Competitive benchmarking, keyword strategy, keyword gap analysis, category analysis, ASIN tracking, and brand monitoring for ecommerce teams.
 
 ## Installation Options
 
