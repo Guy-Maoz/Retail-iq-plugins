@@ -42,7 +42,7 @@ For each competitor in `BRAND_PROFILE.md`:
 ### 6. Product portfolio check
 
 - `get-brands-top-products-agg` with `limit: 10` for portfolio ranking
-- For each tracked ASIN in `BRAND_PROFILE.md`, call `get-products-sales-performance` (time-series) with `asin`, `start_date`, `end_date`, `granularity: "monthly"`. **Do NOT use `-agg` variant** — it returns 500 errors.
+- For each tracked ASIN in `BRAND_PROFILE.md`, call `get-products-sales-performance` (time-series) with `asin`, `start_date`, `end_date`, `granularity: "monthly"` for trend data, or `get-products-sales-performance-agg` for an aggregated snapshot.
 - Flag: products with >20% revenue decline, products with accelerating growth
 
 ### 7. Generate alerts

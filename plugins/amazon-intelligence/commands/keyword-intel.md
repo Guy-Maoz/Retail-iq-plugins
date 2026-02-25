@@ -46,7 +46,7 @@ Quick keyword gap scan — category vs brand.
 
 ### 2D. ASIN keyword drivers
 
-- `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 30`. **Do NOT use `-agg` variant** — it returns 404 errors.
+- `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 30` for trend data, or `get-products-top-keywords-agg` for an aggregated snapshot.
 - Classify by share: owned (>10%), competitive (3-10%), trailing (<3%)
 - `get-categories-top-keywords-agg` to find category keywords missing from ASIN
 - Recommend keywords to target in listing optimization or advertising

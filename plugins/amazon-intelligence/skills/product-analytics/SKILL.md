@@ -9,7 +9,7 @@ Analyze Amazon products at the ASIN level using SimilarWeb Shopper Intelligence.
 
 ## Important API rules
 
-1. **Product `-agg` endpoints are broken** — `get-products-sales-performance-agg` and `get-products-top-keywords-agg` return 500/404 errors. **Always use the time-series variants** with explicit `start_date`, `end_date`, and `granularity: "monthly"`.
+1. **Product endpoints support both variants** — use time-series (`get-products-sales-performance`, `get-products-top-keywords`) with `start_date`, `end_date`, and `granularity: "monthly"` for trend data, or use the `-agg` variants for aggregated snapshots.
 2. **Always provide date ranges** — use `start_date` and `end_date` in `YYYY-MM` format. Default to the last 6 months.
 3. **Category must be a numeric ID** — never pass a category name. Use `get-categories-search` to resolve it.
 4. **Brand tools require `category`** — pass the numeric category ID for all brand-level calls.
@@ -92,8 +92,8 @@ Find keyword gaps and opportunities for a specific ASIN.
 
 ## SimilarWeb tools used
 
-- `get-products-sales-performance` — **time-series only** (do NOT use `-agg` variant, it returns 500 errors)
-- `get-products-top-keywords` — **time-series only** (do NOT use `-agg` variant, it returns 404 errors)
+- `get-products-sales-performance` / `get-products-sales-performance-agg` — time-series for trends, `-agg` for aggregated snapshots
+- `get-products-top-keywords` / `get-products-top-keywords-agg` — time-series for trends, `-agg` for aggregated snapshots
 - `get-brands-top-products` / `get-brands-top-products-agg` — for portfolio-level data (works fine)
 - `get-keywords-top-products` / `get-keywords-top-products-agg` — for competitive product discovery
 - `get-categories-top-keywords` / `get-categories-top-keywords-agg` — for category keyword demand

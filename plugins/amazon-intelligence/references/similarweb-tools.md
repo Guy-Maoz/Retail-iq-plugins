@@ -6,7 +6,7 @@ Quick reference for all SimilarWeb Amazon Intelligence MCP tools used by this pl
 
 1. **Always provide `start_date` and `end_date`** in `YYYY-MM` format. Default to last 6 months.
 2. **Category must be a numeric ID** (e.g., `"679255011"`), not a name. Use `get-categories-search` to find it.
-3. **Product `-agg` endpoints are broken** — `get-products-sales-performance-agg` and `get-products-top-keywords-agg` return 500/404 errors. Always use the time-series variants instead.
+3. **Product endpoints support both variants** — use time-series for trend data or `-agg` for aggregated snapshots, just like brand and category tools.
 4. **Brand tools require `category`** — it's a required parameter (numeric ID) for sales performance, top products, top competitors, top keywords, and clicks share.
 
 ## Tool naming convention
@@ -17,7 +17,7 @@ Each tool has two variants:
 
 Use the aggregated variant for dashboards and comparisons. Use the time-series variant for trend analysis.
 
-**Exception**: For product (ASIN) tools, only use time-series variants — the `-agg` variants are broken.
+Both variants work for all tool types, including product (ASIN) tools.
 
 ## Brand tools
 
@@ -53,8 +53,8 @@ Use the aggregated variant for dashboards and comparisons. Use the time-series v
 
 | Tool | Purpose | Key parameters | Notes |
 |------|---------|---------------|-------|
-| `get-products-sales-performance` | ASIN revenue, units, price | `asin`, `domain`, `start_date`, `end_date`, `granularity` | **Time-series only** — `-agg` variant broken |
-| `get-products-top-keywords` | Top keywords driving traffic to ASIN | `asin`, `domain`, `start_date`, `end_date` | **Time-series only** — `-agg` variant broken |
+| `get-products-sales-performance[-agg]` | ASIN revenue, units, price | `asin`, `domain`, `start_date`, `end_date`, `granularity` | Time-series for trends, `-agg` for snapshots |
+| `get-products-top-keywords[-agg]` | Top keywords driving traffic to ASIN | `asin`, `domain`, `start_date`, `end_date` | Time-series for trends, `-agg` for snapshots |
 
 ## Common parameters
 
@@ -79,6 +79,6 @@ Use the aggregated variant for dashboards and comparisons. Use the time-series v
 
 **Category sizing**: Call `get-categories-sales-performance-agg` for total market, then `get-brands-sales-performance-agg` for user's brand to calculate share.
 
-**ASIN validation**: Use `get-products-sales-performance` (time-series) with `start_date`, `end_date`, `granularity: "monthly"`. Never use the `-agg` variant.
+**ASIN validation**: Use `get-products-sales-performance` (time-series) with `start_date`, `end_date`, `granularity: "monthly"` for trends, or `get-products-sales-performance-agg` for a quick snapshot.
 
 **Auto-discover brand products**: Use `get-brands-top-products-agg` with brand + category ID. This returns ASINs with revenue, units, price, rating — much better than asking users to paste ASINs manually.

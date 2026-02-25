@@ -22,7 +22,7 @@ Map the user's keyword footprint on Amazon.
 
 Understand what search terms drive traffic to specific products.
 
-1. For each ASIN from `BRAND_PROFILE.md`, call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`. **Do NOT use `-agg` variant** — it returns 404 errors.
+1. For each ASIN from `BRAND_PROFILE.md`, call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date` for trend data, or `get-products-top-keywords-agg` for an aggregated snapshot.
 2. Present keywords ranked by clicks share
 3. Identify high-volume keywords where the ASIN has low share (optimization opportunities)
 4. Identify low-volume long-tail keywords with high share (defend these)
@@ -90,7 +90,7 @@ For full opportunity scoring with a 0-100 point system, tier classification (Qui
 ## SimilarWeb tools used
 
 - `get-brands-top-keywords` / `get-brands-top-keywords-agg`
-- `get-products-top-keywords` — **time-series only** (do NOT use `-agg` variant, it returns 404 errors)
+- `get-products-top-keywords` / `get-products-top-keywords-agg` — time-series for trends, `-agg` for aggregated snapshots
 - `get-categories-top-keywords` / `get-categories-top-keywords-agg`
 - `get-keywords-performance` / `get-keywords-performance-agg`
 - `get-keywords-top-brands` / `get-keywords-top-brands-agg`

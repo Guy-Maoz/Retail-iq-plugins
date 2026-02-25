@@ -45,7 +45,7 @@ Deep analysis of brand visibility in on-site search.
 Identify best and worst performing products within the brand.
 
 1. Call `get-brands-top-products-agg` with `brand`, `category`, `limit: 20`
-2. For each product, call `get-products-sales-performance` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `granularity: "monthly"` for detailed metrics. **Do NOT use `-agg` variant** — it returns 500 errors.
+2. For each product, call `get-products-sales-performance` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `granularity: "monthly"` for trend data, or `get-products-sales-performance-agg` for an aggregated snapshot.
 3. Classify products by contribution: top 20% by revenue, middle, bottom
 4. Identify products with declining performance that need attention
 5. Cross-reference with keyword data — are underperforming products losing keyword share?
@@ -98,4 +98,4 @@ Side-by-side comparison on key metrics.
 - `get-clicks-share` / `get-clicks-share-agg`
 - `get-categories-sales-performance` / `get-categories-sales-performance-agg`
 - `get-keywords-top-brands` / `get-keywords-top-brands-agg`
-- `get-products-sales-performance` — **time-series only** (do NOT use `-agg` variant, it returns 500 errors)
+- `get-products-sales-performance` / `get-products-sales-performance-agg` — time-series for trends, `-agg` for aggregated snapshots

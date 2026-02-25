@@ -10,7 +10,7 @@ Initialize or update the brand profile used by all Amazon Intelligence skills.
 ## Important API rules
 
 1. **Category must be a numeric ID** — never pass a category name string. Use `get-categories-search` to find the ID first.
-2. **Product ASIN endpoints: use time-series, not agg** — `get-products-sales-performance-agg` and `get-products-top-keywords-agg` are unreliable (500/404 errors). Always use the time-series variants (`get-products-sales-performance`, `get-products-top-keywords`) with explicit `start_date`, `end_date`, and `granularity: "monthly"`.
+2. **Product ASIN endpoints support both variants** — use `get-products-sales-performance` / `get-products-top-keywords` (time-series) with `start_date`, `end_date`, and `granularity: "monthly"` for trend data, or use the `-agg` variants (`get-products-sales-performance-agg`, `get-products-top-keywords-agg`) for aggregated snapshots.
 3. **Always provide date ranges** — use `start_date` and `end_date` in `YYYY-MM` format. Default to the last 6 months (e.g., `"2025-07"` to `"2025-12"`).
 4. **Brand tools require both `brand` and `category`** — the `category` parameter is a required numeric ID for `get-brands-sales-performance-agg`, `get-brands-top-products-agg`, `get-brands-top-competitors-agg`, `get-clicks-share-agg`, etc.
 
@@ -46,7 +46,7 @@ Call `get-brands-top-products-agg` with:
 This returns the brand's top products with ASIN, name, revenue, units_sold, price, and rating. Present the list and ask:
 - "Here are your top products on Amazon. Which ones do you want to track? Or paste additional ASINs."
 
-For any additional ASINs the user provides, validate them using **time-series** product calls:
+For any additional ASINs the user provides, validate them using product calls:
 ```
 get-products-sales-performance with:
   asin: "<ASIN>"
@@ -56,7 +56,7 @@ get-products-sales-performance with:
   granularity: "monthly"
 ```
 
-**Do NOT use `get-products-sales-performance-agg`** — it returns 500 errors.
+You can also use `get-products-sales-performance-agg` for a quick aggregated snapshot.
 
 Build the ASIN table in `BRAND_PROFILE.md` from both auto-discovered and manually-added ASINs.
 

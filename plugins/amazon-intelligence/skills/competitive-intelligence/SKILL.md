@@ -49,7 +49,7 @@ Identify keyword overlap and gaps between the user and competitors.
 Analyze a specific competitor's top-performing products.
 
 1. Call `get-brands-top-products-agg` for the competitor brand in category
-2. For each top product, call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date` to understand what search terms drive traffic. **Do NOT use `-agg` variant** — it returns 404 errors.
+2. For each top product, call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date` for trend data, or `get-products-top-keywords-agg` for an aggregated snapshot, to understand what search terms drive traffic.
 3. Compare against the user's ASINs competing in the same space
 
 ## Presentation guidelines
@@ -88,4 +88,4 @@ Analyze a specific competitor's top-performing products.
 - `get-brands-top-keywords` / `get-brands-top-keywords-agg`
 - `get-brands-top-products` / `get-brands-top-products-agg`
 - `get-keywords-top-brands` / `get-keywords-top-brands-agg`
-- `get-products-top-keywords` — **time-series only** (do NOT use `-agg` variant, it returns 404 errors)
+- `get-products-top-keywords` / `get-products-top-keywords-agg` — time-series for trends, `-agg` for aggregated snapshots

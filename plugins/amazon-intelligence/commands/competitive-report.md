@@ -42,7 +42,7 @@ Build a comparison table: brand, revenue, units, search share, avg price.
 
 - `get-brands-top-products-agg` for each brand with `limit: 5`
 - Compare portfolio breadth and best-seller strength
-- For head-to-head products, compare `get-products-top-keywords` (time-series, with `start_date`, `end_date`) to see keyword strategy differences. **Do NOT use `get-products-top-keywords-agg`** — it returns 404 errors.
+- For head-to-head products, compare `get-products-top-keywords` (time-series for trend data) or `get-products-top-keywords-agg` (for aggregated snapshots) to see keyword strategy differences.
 
 ### 6. Competitive discovery
 

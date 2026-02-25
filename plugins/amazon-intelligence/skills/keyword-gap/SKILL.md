@@ -9,7 +9,7 @@ Identify keyword opportunities your brand is missing on Amazon by comparing your
 
 ## Important API rules
 
-1. **Product `-agg` endpoints are broken** — `get-products-top-keywords-agg` returns 404 errors. **Always use the time-series variant** (`get-products-top-keywords`) with explicit `start_date`, `end_date`.
+1. **Product endpoints support both variants** — use `get-products-top-keywords` (time-series) with `start_date`, `end_date` for trend data, or `get-products-top-keywords-agg` for aggregated snapshots.
 2. **Always provide `start_date` and `end_date`** in `YYYY-MM` format. Default to the last 6 months.
 3. **Category must be a numeric ID** — never pass a category name. Use `get-categories-search` to resolve it if needed.
 4. **Brand tools require `category`** — pass the numeric category ID for all brand-level calls.
@@ -63,7 +63,7 @@ Identify high-volume category search terms where the brand has zero or minimal p
 Find keywords driving competitor products that the user's products do not capture.
 
 1. Read `BRAND_PROFILE.md` for user's tracked ASINs
-2. For each user ASIN, call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 30` — collect as `user_asin_keywords[asin]`. **Do NOT use `-agg` variant** — it returns 404 errors.
+2. For each user ASIN, call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 30` — collect as `user_asin_keywords[asin]`. You can also use `get-products-top-keywords-agg` for aggregated snapshots.
 3. Identify competitor top products: call `get-brands-top-products-agg` with each competitor's `brand`, `category`, `domain: "amazon.com"`, `limit: 5` — collect top competitor ASINs
 4. For the top 3 competitor products (by revenue), call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 30` — collect as `competitor_asin_keywords[asin]`
 5. Cross-reference at the product level:
@@ -176,4 +176,4 @@ Use existing `dashboard-ui` badge variants for gap tiers:
 - `get-keywords-performance` / `get-keywords-performance-agg`
 - `get-keywords-top-brands` / `get-keywords-top-brands-agg`
 - `get-keywords-top-products` / `get-keywords-top-products-agg`
-- `get-products-top-keywords` — **time-series only** (do NOT use `-agg` variant, it returns 404 errors)
+- `get-products-top-keywords` / `get-products-top-keywords-agg` — time-series for trends, `-agg` for aggregated snapshots

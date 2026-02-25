@@ -9,7 +9,7 @@ Analyze product-level performance on Amazon.
 
 ## Important API rules
 
-1. **Product `-agg` endpoints are broken** — `get-products-sales-performance-agg` and `get-products-top-keywords-agg` return 500/404 errors. **Always use the time-series variants** with explicit `start_date`, `end_date`, and `granularity: "monthly"`.
+1. **Product endpoints support both variants** — use time-series (`get-products-sales-performance`, `get-products-top-keywords`) with `start_date`, `end_date`, and `granularity: "monthly"` for trend data, or use the `-agg` variants for aggregated snapshots.
 2. **Always provide date ranges** — use `start_date` and `end_date` in `YYYY-MM` format. Default to the last 6 months.
 3. **Category must be a numeric ID** — never pass a category name. Use `get-categories-search` to resolve it.
 4. **Brand tools require `category`** — pass the numeric category ID for all brand-level calls.
