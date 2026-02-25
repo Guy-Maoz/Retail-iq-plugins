@@ -1,0 +1,48 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "similarweb-plugins",
+  "version": "1.0.0",
+  "owner": {
+    "name": "SimilarWeb",
+    "email": "plugins@similarweb.com",
+    "url": "https://github.com/anthropics/claude-code"
+  },
+  "metadata": {
+    "description": "SimilarWeb Intelligence plugins for Claude Code. Ecommerce analytics, competitive intelligence, and market research powered by SimilarWeb data.",
+    "version": "1.0.0",
+    "license": "MIT",
+    "keywords": [
+      "similarweb",
+      "ecommerce",
+      "amazon",
+      "shopper-intelligence",
+      "competitive-intelligence",
+      "keyword-research",
+      "market-analysis",
+      "brand-monitoring"
+    ]
+  },
+  "plugins": [
+    {
+      "name": "amazon-intelligence",
+      "source": "./plugins/amazon-intelligence",
+      "description": "SimilarWeb Amazon Intelligence for ecommerce teams. Analyze category trends, competitive landscape, keyword opportunities, product performance, and brand health on Amazon.",
+      "version": "1.0.0",
+      "author": {
+        "name": "SimilarWeb"
+      },
+      "license": "MIT",
+      "keywords": [
+        "amazon",
+        "ecommerce",
+        "shopper-intelligence",
+        "competitive-analysis",
+        "keyword-research",
+        "category-trends",
+        "asin-tracking",
+        "brand-monitoring"
+      ],
+      "category": "analytics"
+    }
+  ]
+}

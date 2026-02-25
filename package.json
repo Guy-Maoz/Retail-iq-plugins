@@ -1,0 +1,25 @@
+{
+  "name": "similarweb-plugins",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SimilarWeb Intelligence plugin marketplace for Claude Code",
+  "scripts": {
+    "validate": "node scripts/validate-all.js",
+    "validate:plugins": "node scripts/validate-plugins.js",
+    "generate:registry": "node scripts/generate-registry.js",
+    "test": "npm run validate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthropics/claude-code"
+  },
+  "keywords": [
+    "claude-code",
+    "plugins",
+    "similarweb",
+    "ecommerce",
+    "analytics"
+  ],
+  "author": "SimilarWeb",
+  "license": "MIT"
+}
