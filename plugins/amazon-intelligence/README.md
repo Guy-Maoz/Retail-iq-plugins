@@ -37,7 +37,7 @@ This plugin gives ecommerce teams an AI-powered Amazon intelligence partner that
 |---|---|
 | `competitive-intelligence` | Share of voice, competitor benchmarking, keyword battlegrounds, competitor discovery |
 | `keyword-strategy` | Keyword portfolio, ASIN keyword drivers, category keyword landscape, trend monitoring |
-| `keyword-gap` | Competitor keyword gaps, category gaps, ASIN-level gaps, opportunity scoring and prioritization |
+| `keyword-gap` | Competitor keyword gaps, category gaps, ASIN-level gaps, opportunity scoring and prioritization. Uses subagent data fetchers to keep the main agent context lean while analyzing all keywords. |
 | `category-intelligence` | Category sizing, trend analysis, brand concentration, consumer demand signals |
 | `product-analytics` | ASIN performance, portfolio classification, competitive product comparison |
 | `brand-performance` | Brand health dashboard, trend analysis, search share, portfolio optimization |

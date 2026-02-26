@@ -14,6 +14,119 @@ Identify keyword opportunities your brand is missing on Amazon by comparing your
 3. **Category must be a numeric ID** — never pass a category name. Use `get-categories-search` to resolve it if needed.
 4. **Brand tools require `category`** — pass the numeric category ID for all brand-level calls.
 
+## Subagent data fetchers
+
+When running the full cross-analysis workflow (or Analysis 3 standalone), use subagents to make MCP calls and return only the metrics needed for analysis. This keeps the main agent's context lean — it sees every keyword but in compact tables, not raw API JSON.
+
+**General rules for all subagents:**
+- Return results as markdown tables with only the columns specified below — do not include raw API responses
+- If any API call fails, note the failure in the response and continue with the remaining calls
+- Always pass `start_date`, `end_date` in `YYYY-MM` format, and `domain` as provided in the prompt
+
+### Subagent A — Brand & category keyword collection
+
+Collects brand and category keyword portfolios for Analyses 1 and 2.
+
+**Prompt template** (fill in `{{placeholders}}` from `BRAND_PROFILE.md`):
+
+> Collect keyword portfolios for a keyword gap analysis.
+>
+> **For the user's brand** and **each competitor brand**, call `get-brands-top-keywords-agg` with `brand`, `category: {{category_id}}`, `domain: {{domain}}`, `limit: 100`, `start_date: {{start_date}}`, `end_date: {{end_date}}`.
+>
+> **For the category**, call `get-categories-top-keywords-agg` with `category: {{category_id}}`, `domain: {{domain}}`, `limit: 100`, `start_date: {{start_date}}`, `end_date: {{end_date}}`.
+>
+> User brand: {{user_brand}}
+> Competitors: {{competitor_list}}
+> Category ID: {{category_id}}
+> Domain: {{domain}}
+> Date range: {{start_date}} to {{end_date}}
+>
+> **Return format** — one table per entity, only these columns:
+>
+> ### {{brand_name}} (user brand)
+> | keyword | brand_share |
+> |---|---|
+> | ... | ... |
+>
+> ### {{competitor_name}} (competitor)
+> | keyword | brand_share |
+> |---|---|
+> | ... | ... |
+>
+> ### Category: {{category_id}}
+> | keyword | category_share |
+> |---|---|
+> | ... | ... |
+>
+> Do NOT include any other fields (clicks, price, organic/paid ratios, etc.) — only keyword and share.
+
+### Subagent B — ASIN keyword collection
+
+Collects product-level keyword portfolios for Analysis 3.
+
+**Prompt template:**
+
+> Collect ASIN-level keywords for a keyword gap analysis.
+>
+> **Step 1 — User ASINs:** For each user ASIN below, call `get-products-top-keywords-agg` with `asin`, `domain: {{domain}}`, `start_date: {{start_date}}`, `end_date: {{end_date}}`, `limit: 30`.
+>
+> **Step 2 — Competitor top products:** For each competitor brand, call `get-brands-top-products-agg` with `brand`, `category: {{category_id}}`, `domain: {{domain}}`, `limit: 5`. Take the top 3 products by revenue.
+>
+> **Step 3 — Competitor ASIN keywords:** For each of the top 3 competitor products, call `get-products-top-keywords-agg` with `asin`, `domain: {{domain}}`, `start_date: {{start_date}}`, `end_date: {{end_date}}`, `limit: 30`.
+>
+> User ASINs: {{user_asin_list}}
+> Competitors: {{competitor_list}}
+> Category ID: {{category_id}}
+> Domain: {{domain}}
+> Date range: {{start_date}} to {{end_date}}
+>
+> **Return format** — one table per ASIN, labeled as user or competitor:
+>
+> ### User ASIN: {{asin}} — {{product_name}}
+> | keyword | clicks_share |
+> |---|---|
+> | ... | ... |
+>
+> ### Competitor ASIN: {{asin}} — {{brand_name}} — {{product_name}}
+> | keyword | clicks_share |
+> |---|---|
+> | ... | ... |
+>
+> Do NOT include any other fields (rank, search volume, organic/paid clicks, reach, etc.) — only keyword and clicks_share.
+
+### Subagent C — Gap keyword enrichment
+
+Enriches gap keywords with volume, competition, and trend data for Analysis 4. Called after the main agent compiles the gap keyword list from Analyses 1-3.
+
+**Prompt template:**
+
+> Enrich keyword gap opportunities with performance and competition data.
+>
+> **Step 1 — Performance:** For each keyword below, call `get-keywords-performance-agg` with `keyword`, `domain: {{domain}}`, `start_date: {{start_date}}`, `end_date: {{end_date}}`. Extract `search_volume` and `clicks`.
+>
+> **Step 2 — Competition:** For each keyword, call `get-keywords-top-brands-agg` with `keyword`, `domain: {{domain}}`, `limit: 10`, `start_date: {{start_date}}`, `end_date: {{end_date}}`. Count brands with >5% click share and note the top 3.
+>
+> **Step 3 — Trends:** For the top 20 keywords by volume (from Step 1), call `get-keywords-performance` (time-series) with `keyword`, `domain: {{domain}}`, `granularity: "monthly"`, `start_date: {{start_date}}`, `end_date: {{end_date}}`. Calculate 3-month trend direction and percentage.
+>
+> Gap keywords: {{gap_keyword_list}}
+> Domain: {{domain}}
+> Date range: {{start_date}} to {{end_date}}
+>
+> **Return format:**
+>
+> ### Enriched gap keywords
+> | keyword | volume | clicks | brand_count | top_3_brands | trend_direction | trend_pct |
+> |---|---|---|---|---|---|---|
+> | ... | ... | ... | ... | ... | ... | ... |
+>
+> ### Monthly trends (top 20)
+> | keyword | {{month_1}} | {{month_2}} | ... | {{month_N}} | direction |
+> |---|---|---|---|---|---|
+> | ... | ... | ... | ... | ... | ... |
+>
+> `brand_count` = number of brands with >5% click share. `trend_direction` = growing / flat / declining. `trend_pct` = 3-month volume change percentage.
+> Do NOT include raw API responses — only the tables above.
+
 ## Core analyses
 
 ### Analysis 1: Brand vs competitors keyword gap
@@ -62,10 +175,12 @@ Identify high-volume category search terms where the brand has zero or minimal p
 
 Find keywords driving competitor products that the user's products do not capture.
 
+> **Subagent note:** When running as part of the full workflow or standalone, delegate steps 1-4 below to **Subagent B** (see Subagent data fetchers section). The main agent receives compact keyword tables and proceeds from step 5. If running without subagents, follow steps 1-4 directly.
+
 1. Read `BRAND_PROFILE.md` for user's tracked ASINs
-2. For each user ASIN, call `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `limit: 30` — collect as `user_asin_keywords[asin]`. You can also use `get-products-top-keywords-agg` for aggregated snapshots.
+2. For each user ASIN, call `get-products-top-keywords-agg` with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `limit: 30` — collect as `user_asin_keywords[asin]`. Use the `-agg` variant since gap detection is a set comparison and does not require time-series data.
 3. Identify competitor top products: call `get-brands-top-products-agg` with each competitor's `brand`, `category`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 5` — collect top competitor ASINs
-4. For the top 3 competitor products (by revenue), call `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `limit: 30` — collect as `competitor_asin_keywords[asin]`
+4. For the top 3 competitor products (by revenue), call `get-products-top-keywords-agg` with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `limit: 30` — collect as `competitor_asin_keywords[asin]`
 5. Cross-reference at the product level:
    - For each competitor product, find keywords that appear in `competitor_asin_keywords` but NOT in any of `user_asin_keywords` — these are ASIN-level gaps
    - For shared keywords, find where competitor product's share is > 2x user product's share — these are ASIN-level underperformance
@@ -102,26 +217,26 @@ Score and rank all gap keywords found in Analyses 1-3 into actionable tiers.
 
 ## Cross-analysis workflow
 
-When running the full keyword gap analysis (all 4 analyses together), follow this sequence to minimize redundant API calls:
+When running the full keyword gap analysis (all 4 analyses together), use subagents to collect data and keep the main agent focused on analysis and presentation.
 
-1. **Step 1 — Collect brand keywords** (shared across Analyses 1 and 2):
-   - `get-brands-top-keywords-agg` for user's brand (limit: 100)
-   - `get-brands-top-keywords-agg` for each competitor (limit: 100)
-   - `get-categories-top-keywords-agg` for the category (limit: 100)
+1. **Step 1 — Read context**: Load `BRAND_PROFILE.md` for brand, category ID, competitor list, tracked ASINs, and domain. Determine date range (default: last 6 months).
 
-2. **Step 2 — Collect ASIN keywords** (for Analysis 3):
-   - `get-products-top-keywords` (time-series) for each user ASIN
-   - `get-brands-top-products-agg` for each competitor to get their top ASINs
-   - `get-products-top-keywords` (time-series) for top competitor ASINs
+2. **Step 2 — Collect all keyword data** (spawn two subagents **in parallel**):
+   - **Subagent A** — Brand & category keyword collection: pass user brand, competitors, category, domain, dates. Returns compact `keyword | brand_share` tables per entity.
+   - **Subagent B** — ASIN keyword collection: pass user ASINs, competitors, category, domain, dates. Returns compact `keyword | clicks_share` tables per ASIN.
 
-3. **Step 3 — Run Analyses 1-3** using data from Steps 1-2, compile all gap keywords, deduplicate
+3. **Step 3 — Run Analyses 1-3** using the compact tables from both subagents:
+   - Analysis 1 (brand vs competitors): cross-reference brand keyword tables to classify gaps, underperformance, advantages, battlegrounds
+   - Analysis 2 (brand vs category): cross-reference user brand table against category table for coverage gaps
+   - Analysis 3 (ASIN-level): cross-reference user ASIN tables against competitor ASIN tables for product-level gaps
+   - Compile all gap keywords from the 3 analyses, deduplicate
 
-4. **Step 4 — Enrich gap keywords** (for Analysis 4):
-   - `get-keywords-performance-agg` for each top gap keyword (top 30 by estimated importance)
-   - `get-keywords-top-brands-agg` for each top gap keyword (top 30)
-   - `get-keywords-performance` (time-series) for top 20 keywords
+4. **Step 4 — Enrich gap keywords** (spawn one subagent):
+   - **Subagent C** — Gap keyword enrichment: pass the deduplicated gap keyword list (top 30 by estimated importance), domain, dates. Returns enriched table with volume, competition, and trend data.
 
-5. **Step 5 — Score, classify, and present** the complete dashboard
+5. **Step 5 — Score, classify, and present**: Using the enrichment table from Subagent C, apply the opportunity scoring formula from Analysis 4 (volume/competition/trend/relevance scores), classify keywords into tiers, and build the dashboard.
+
+**Fallback:** If any subagent fails to return results, the main agent makes those API calls directly using the steps described in the individual analysis sections above.
 
 ## Visual output
 
