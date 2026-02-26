@@ -5,7 +5,7 @@ description: Amazon on-site search keyword intelligence using SimilarWeb Shopper
 
 # Keyword Strategy
 
-Analyze Amazon on-site search keywords using SimilarWeb Shopper Intelligence. Always load `BRAND_PROFILE.md` first for brand/category context.
+Analyze Amazon on-site search keywords using SimilarWeb Shopper Intelligence. Always load `BRAND_PROFILE.md` first for brand, category, and domain context.
 
 ## Core analyses
 
@@ -13,8 +13,8 @@ Analyze Amazon on-site search keywords using SimilarWeb Shopper Intelligence. Al
 
 Map the user's keyword footprint on Amazon.
 
-1. Read `BRAND_PROFILE.md` for brand and category
-2. Call `get-brands-top-keywords-agg` with `brand`, `category`, `domain: "amazon.com"`, `limit: 50`
+1. Read `BRAND_PROFILE.md` for brand, category, and domain
+2. Call `get-brands-top-keywords-agg` with `brand`, `category`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 50`
 3. Present top keywords ranked by search clicks share
 4. Classify keywords: branded (contain brand name) vs generic vs competitor-branded
 
@@ -22,7 +22,7 @@ Map the user's keyword footprint on Amazon.
 
 Understand what search terms drive traffic to specific products.
 
-1. For each ASIN from `BRAND_PROFILE.md`, call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date` for trend data, or `get-products-top-keywords-agg` for an aggregated snapshot.
+1. For each ASIN from `BRAND_PROFILE.md`, call `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date` for trend data, or `get-products-top-keywords-agg` for an aggregated snapshot.
 2. Present keywords ranked by clicks share
 3. Identify high-volume keywords where the ASIN has low share (optimization opportunities)
 4. Identify low-volume long-tail keywords with high share (defend these)
@@ -31,7 +31,7 @@ Understand what search terms drive traffic to specific products.
 
 Discover what shoppers in the category are searching for and spot coverage gaps.
 
-1. Call `get-categories-top-keywords-agg` with `category`, `domain: "amazon.com"`, `limit: 50`, `start_date`, `end_date`
+1. Call `get-categories-top-keywords-agg` with `category`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 50`, `start_date`, `end_date`
 2. Compare against user's brand keywords (from "Brand keyword portfolio" above) — flag keywords where user has no presence
 3. Calculate category keyword coverage: what percentage of the top 50 category keywords does the user's brand appear in?
 4. List the top 10 gap keywords (category keywords where user has no presence), ranked by category search share
@@ -42,7 +42,7 @@ Discover what shoppers in the category are searching for and spot coverage gaps.
 
 Analyze a specific keyword's competitive landscape.
 
-1. Call `get-keywords-performance-agg` with `keyword`, `domain: "amazon.com"` for volume and trend
+1. Call `get-keywords-performance-agg` with `keyword`, `domain: <domain from BRAND_PROFILE.md>` for volume and trend
 2. Call `get-keywords-top-brands-agg` for brand rankings on that keyword
 3. Call `get-keywords-top-products-agg` for product rankings on that keyword
 4. For trends, use `get-keywords-performance` (non-agg) with `granularity: "weekly"` or `"monthly"`

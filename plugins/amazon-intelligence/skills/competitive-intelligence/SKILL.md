@@ -5,7 +5,7 @@ description: Analyze Amazon competitors using SimilarWeb Shopper Intelligence. C
 
 # Competitive Intelligence
 
-Analyze competitive dynamics on Amazon using SimilarWeb Shopper Intelligence data. Always load `BRAND_PROFILE.md` first to get the user's brand, category, and competitor list.
+Analyze competitive dynamics on Amazon using SimilarWeb Shopper Intelligence data. Always load `BRAND_PROFILE.md` first to get the user's brand, category, competitor list, and domain.
 
 ## Core analyses
 
@@ -13,8 +13,8 @@ Analyze competitive dynamics on Amazon using SimilarWeb Shopper Intelligence dat
 
 Compare on-site search clicks share for the user's brand vs competitors within their primary category.
 
-1. Read `BRAND_PROFILE.md` for brand, category, and competitor list
-2. For each brand (user + competitors), call `get-clicks-share-agg` with `brand`, `category`, `domain: "amazon.com"`
+1. Read `BRAND_PROFILE.md` for brand, category, competitor list, and domain
+2. For each brand (user + competitors), call `get-clicks-share-agg` with `brand`, `category`, `domain: <domain from BRAND_PROFILE.md>`
 3. Present a comparison table: brand, clicks share %, change vs prior period
 4. Highlight who is gaining/losing search share
 
@@ -22,7 +22,7 @@ Compare on-site search clicks share for the user's brand vs competitors within t
 
 Compare sales performance across brands in the same category.
 
-1. For each brand, call `get-brands-sales-performance-agg` with `brand`, `category`, `domain: "amazon.com"`
+1. For each brand, call `get-brands-sales-performance-agg` with `brand`, `category`, `domain: <domain from BRAND_PROFILE.md>`
 2. Compare: units sold, revenue, average selling price
 3. For time-series trends, use `get-brands-sales-performance` (non-agg) with `granularity: "monthly"`
 4. Flag competitors growing faster than the user's brand
@@ -49,7 +49,7 @@ Identify keyword overlap and gaps between the user and competitors.
 Analyze a specific competitor's top-performing products.
 
 1. Call `get-brands-top-products-agg` for the competitor brand in category
-2. For each top product, call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date` for trend data, or `get-products-top-keywords-agg` for an aggregated snapshot, to understand what search terms drive traffic.
+2. For each top product, call `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date` for trend data, or `get-products-top-keywords-agg` for an aggregated snapshot, to understand what search terms drive traffic.
 3. Compare against the user's ASINs competing in the same space
 
 ## Presentation guidelines

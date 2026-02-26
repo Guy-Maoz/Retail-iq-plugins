@@ -2,7 +2,7 @@
 
 ## How tool references work
 
-This plugin relies on the **SimilarWeb MCP** as its core data source. It provides Amazon Shopper Intelligence data covering brands, categories, keywords, and products on amazon.com.
+This plugin relies on the **SimilarWeb MCP** as its core data source. It provides Amazon Shopper Intelligence data covering brands, categories, keywords, and products across Amazon marketplaces (US, UK, France, Germany, Canada, Italy).
 
 ## Connectors for this plugin
 
@@ -20,4 +20,4 @@ The SimilarWeb MCP provides these Amazon Intelligence tool families:
 - **Keyword tools**: On-site search keyword performance, top brands per keyword, top products per keyword
 - **Product tools**: ASIN sales performance, top keywords driving traffic to a product
 
-All data is for **amazon.com** (US marketplace) by default.
+Data is available for all supported Amazon marketplaces. The active marketplace is configured in `BRAND_PROFILE.md` during `/setup`.

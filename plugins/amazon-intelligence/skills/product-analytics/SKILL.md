@@ -5,7 +5,7 @@ description: Amazon product-level (ASIN) analytics using SimilarWeb Shopper Inte
 
 # Product Analytics
 
-Analyze Amazon products at the ASIN level using SimilarWeb Shopper Intelligence. Always load `BRAND_PROFILE.md` first for the user's tracked ASINs.
+Analyze Amazon products at the ASIN level using SimilarWeb Shopper Intelligence. Always load `BRAND_PROFILE.md` first for the user's tracked ASINs and domain.
 
 ## Important API rules
 
@@ -20,25 +20,25 @@ Analyze Amazon products at the ASIN level using SimilarWeb Shopper Intelligence.
 
 Sales and traffic overview for a specific product.
 
-1. Read `BRAND_PROFILE.md` for tracked ASINs and category ID
-2. Call `get-products-sales-performance` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `granularity: "monthly"` — get revenue, units, price over time; use latest month as snapshot
-3. Call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 20` — keyword drivers
+1. Read `BRAND_PROFILE.md` for tracked ASINs, category ID, and domain
+2. Call `get-products-sales-performance` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `granularity: "monthly"` — get revenue, units, price over time; use latest month as snapshot
+3. Call `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `limit: 20` — keyword drivers
 4. Present: revenue, units sold, average price, top search keywords driving traffic
 
 ### ASIN trend analysis
 
 Track how a product's performance changes over time.
 
-1. Call `get-products-sales-performance` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `granularity: "monthly"`
+1. Call `get-products-sales-performance` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `granularity: "monthly"`
 2. Identify: growth/decline trajectory, seasonal patterns, price changes
-3. Call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `granularity: "monthly"` to see if keyword mix is shifting
+3. Call `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `granularity: "monthly"` to see if keyword mix is shifting
 4. Flag: revenue growth decoupled from unit growth (price effect), new keywords appearing, keywords losing share
 
 ### Portfolio overview
 
 Analyze all tracked ASINs together.
 
-1. Use `get-brands-top-products-agg` with `brand`, `category` (numeric ID), `domain: "amazon.com"`, `limit: 20` — this returns all products with revenue, units, price, rating in one call
+1. Use `get-brands-top-products-agg` with `brand`, `category` (numeric ID), `domain: <domain from BRAND_PROFILE.md>`, `limit: 20` — this returns all products with revenue, units, price, rating in one call
 2. For deeper per-ASIN trends, call `get-products-sales-performance` (time-series) with explicit dates for each priority ASIN
 3. Rank by revenue, units, growth rate
 4. Classify: Stars (high revenue + growing), Cash cows (high revenue + flat/declining), Rising stars (low revenue + growing fast), Underperformers (low revenue + declining)
@@ -56,7 +56,7 @@ Compare the user's ASIN against competitor products.
 
 Find keyword gaps and opportunities for a specific ASIN.
 
-1. Call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date` for current keyword portfolio
+1. Call `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date` for current keyword portfolio
 2. Call `get-categories-top-keywords-agg` for category-level demand
 3. Find category keywords with high volume where the ASIN has no presence
 4. For each gap keyword, call `get-keywords-top-products-agg` to assess competition difficulty

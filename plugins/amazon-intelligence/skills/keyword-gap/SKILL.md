@@ -5,7 +5,7 @@ description: Comprehensive keyword gap analysis for Amazon brands using SimilarW
 
 # Keyword Gap Analysis
 
-Identify keyword opportunities your brand is missing on Amazon by comparing your keyword portfolio against competitors, the category, and competitor products. Always load `BRAND_PROFILE.md` first for brand, category, competitor, and ASIN context.
+Identify keyword opportunities your brand is missing on Amazon by comparing your keyword portfolio against competitors, the category, and competitor products. Always load `BRAND_PROFILE.md` first for brand, category, competitor, ASIN, and domain context.
 
 ## Important API rules
 
@@ -20,17 +20,17 @@ Identify keyword opportunities your brand is missing on Amazon by comparing your
 
 Compare the user's keyword portfolio against each competitor to find gaps, underperformance, and advantages.
 
-1. Read `BRAND_PROFILE.md` for brand, category ID, and competitor list
-2. Call `get-brands-top-keywords-agg` with `brand` (user's brand), `category`, `domain: "amazon.com"`, `limit: 100`, `start_date`, `end_date` — collect as `user_keywords`
-3. For each competitor in the profile, call `get-brands-top-keywords-agg` with `brand` (competitor), `category`, `domain: "amazon.com"`, `limit: 100`, `start_date`, `end_date` — collect as `competitor_keywords[brand_name]`
+1. Read `BRAND_PROFILE.md` for brand, category ID, competitor list, and domain
+2. Call `get-brands-top-keywords-agg` with `brand` (user's brand), `category`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 100`, `start_date`, `end_date` — collect as `user_keywords`
+3. For each competitor in the profile, call `get-brands-top-keywords-agg` with `brand` (competitor), `category`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 100`, `start_date`, `end_date` — collect as `competitor_keywords[brand_name]`
 4. Cross-reference the keyword lists to classify every keyword:
    - **Competitor-only gaps**: Keywords appearing in any competitor's top keywords but NOT in `user_keywords`. These are the primary gap opportunities.
    - **Underperformance keywords**: Keywords appearing in both `user_keywords` and a competitor's list, but where the user's `clicks_share` is less than half the competitor's `clicks_share`. These are keywords the user competes on but loses.
    - **Brand advantages**: Keywords appearing in `user_keywords` but NOT in any competitor's list. These are defensive positions to protect.
    - **Battleground keywords**: Keywords where both user and at least 2 competitors appear, with shares within 2x of each other. These are highly contested.
 5. For the top 15 competitor-only gap keywords (ranked by the competitor's clicks share), enrich with:
-   - Call `get-keywords-performance-agg` with `keyword`, `domain: "amazon.com"` — get search volume
-   - Call `get-keywords-top-brands-agg` with `keyword`, `domain: "amazon.com"`, `limit: 10` — count how many strong brands compete and confirm user's brand doesn't appear
+   - Call `get-keywords-performance-agg` with `keyword`, `domain: <domain from BRAND_PROFILE.md>` — get search volume
+   - Call `get-keywords-top-brands-agg` with `keyword`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 10` — count how many strong brands compete and confirm user's brand doesn't appear
 6. For the top 10 underperformance keywords, call `get-keywords-performance-agg` for volume context
 7. Present results:
    - Gap count summary: "X competitor-only keywords found, Y underperformance keywords, Z brand advantages"
@@ -42,13 +42,13 @@ Compare the user's keyword portfolio against each competitor to find gaps, under
 
 Identify high-volume category search terms where the brand has zero or minimal presence.
 
-1. Call `get-categories-top-keywords-agg` with `category`, `domain: "amazon.com"`, `limit: 100`, `start_date`, `end_date` — collect as `category_keywords`
+1. Call `get-categories-top-keywords-agg` with `category`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 100`, `start_date`, `end_date` — collect as `category_keywords`
 2. Use `user_keywords` from Analysis 1 (or call `get-brands-top-keywords-agg` again if running standalone)
 3. Cross-reference:
    - **Category gaps**: Keywords in `category_keywords` that do NOT appear in `user_keywords` at all
    - **Low-presence keywords**: Keywords in both lists but where user's share in the keyword is below the category median share
 4. For the top 20 category gap keywords (by category-level search share), enrich:
-   - Call `get-keywords-top-brands-agg` with `keyword`, `domain: "amazon.com"`, `limit: 10` — identify who owns these keywords and how concentrated ownership is
+   - Call `get-keywords-top-brands-agg` with `keyword`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 10` — identify who owns these keywords and how concentrated ownership is
 5. Score each gap keyword:
    - **High opportunity**: High search volume + few dominant brands (< 3 brands hold > 60% share)
    - **Medium opportunity**: High search volume but competitive (> 5 brands with meaningful share)
@@ -63,9 +63,9 @@ Identify high-volume category search terms where the brand has zero or minimal p
 Find keywords driving competitor products that the user's products do not capture.
 
 1. Read `BRAND_PROFILE.md` for user's tracked ASINs
-2. For each user ASIN, call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 30` — collect as `user_asin_keywords[asin]`. You can also use `get-products-top-keywords-agg` for aggregated snapshots.
-3. Identify competitor top products: call `get-brands-top-products-agg` with each competitor's `brand`, `category`, `domain: "amazon.com"`, `limit: 5` — collect top competitor ASINs
-4. For the top 3 competitor products (by revenue), call `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 30` — collect as `competitor_asin_keywords[asin]`
+2. For each user ASIN, call `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `limit: 30` — collect as `user_asin_keywords[asin]`. You can also use `get-products-top-keywords-agg` for aggregated snapshots.
+3. Identify competitor top products: call `get-brands-top-products-agg` with each competitor's `brand`, `category`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 5` — collect top competitor ASINs
+4. For the top 3 competitor products (by revenue), call `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `limit: 30` — collect as `competitor_asin_keywords[asin]`
 5. Cross-reference at the product level:
    - For each competitor product, find keywords that appear in `competitor_asin_keywords` but NOT in any of `user_asin_keywords` — these are ASIN-level gaps
    - For shared keywords, find where competitor product's share is > 2x user product's share — these are ASIN-level underperformance
@@ -81,9 +81,9 @@ Score and rank all gap keywords found in Analyses 1-3 into actionable tiers.
 
 1. Compile a deduplicated list of all gap keywords found across Analyses 1, 2, and 3
 2. For any gap keywords not yet enriched, call:
-   - `get-keywords-performance-agg` with `keyword`, `domain: "amazon.com"` — search volume and click metrics
-   - `get-keywords-top-brands-agg` with `keyword`, `domain: "amazon.com"`, `limit: 10` — competition intensity
-3. For the top 20 gap keywords by volume, call `get-keywords-performance` (time-series) with `keyword`, `domain: "amazon.com"`, `granularity: "monthly"`, `start_date`, `end_date` — trend data
+   - `get-keywords-performance-agg` with `keyword`, `domain: <domain from BRAND_PROFILE.md>` — search volume and click metrics
+   - `get-keywords-top-brands-agg` with `keyword`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 10` — competition intensity
+3. For the top 20 gap keywords by volume, call `get-keywords-performance` (time-series) with `keyword`, `domain: <domain from BRAND_PROFILE.md>`, `granularity: "monthly"`, `start_date`, `end_date` — trend data
 4. Calculate an **opportunity score** (0-100) for each keyword:
    - **Volume score** (0-40 points): Normalize search volume relative to the highest-volume keyword in the set. Top 10% get 40 pts, next 20% get 30, next 30% get 20, bottom 40% get 10.
    - **Competition score** (0-30 points): Based on `get-keywords-top-brands-agg` results. Fewer than 3 brands holding >5% share: 30 pts. 3-5 brands: 20 pts. 6-8 brands: 10 pts. 9+ brands: 5 pts.

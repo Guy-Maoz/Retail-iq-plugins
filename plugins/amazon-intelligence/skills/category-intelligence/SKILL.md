@@ -5,7 +5,7 @@ description: Amazon category-level market intelligence using SimilarWeb Shopper 
 
 # Category Intelligence
 
-Analyze Amazon categories using SimilarWeb Shopper Intelligence. Always load `BRAND_PROFILE.md` first for category context.
+Analyze Amazon categories using SimilarWeb Shopper Intelligence. Always load `BRAND_PROFILE.md` first for category and domain context.
 
 ## Core analyses
 
@@ -13,8 +13,8 @@ Analyze Amazon categories using SimilarWeb Shopper Intelligence. Always load `BR
 
 Full snapshot of a category's health and dynamics.
 
-1. Read `BRAND_PROFILE.md` for primary category
-2. Call `get-categories-sales-performance-agg` with `category`, `domain: "amazon.com"` for total category size (revenue, units)
+1. Read `BRAND_PROFILE.md` for primary category and domain
+2. Call `get-categories-sales-performance-agg` with `category`, `domain: <domain from BRAND_PROFILE.md>` for total category size (revenue, units)
 3. Call `get-categories-top-brands-agg` with `limit: 10` for brand concentration
 4. Call `get-categories-top-products-agg` with `limit: 10` for best-selling products
 5. Call `get-categories-performance-agg` for on-site search metrics (search volume into category)

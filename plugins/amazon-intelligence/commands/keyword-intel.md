@@ -11,7 +11,7 @@ Analyze Amazon on-site search keywords for strategic opportunities.
 
 ### 1. Determine scope
 
-Load `BRAND_PROFILE.md`. Based on argument:
+Load `BRAND_PROFILE.md` (brand, category, competitors, domain). Based on argument:
 - **Specific keyword** (e.g., "wireless earbuds"): Deep-dive on that keyword
 - **"portfolio"** or no argument: Analyze the user's full keyword portfolio
 - **"gaps"**: Find keywords the user is missing
@@ -19,7 +19,7 @@ Load `BRAND_PROFILE.md`. Based on argument:
 
 ### 2A. Keyword deep-dive (specific keyword)
 
-- `get-keywords-performance-agg` with `keyword`, `domain: "amazon.com"` — volume, clicks, trend
+- `get-keywords-performance-agg` with `keyword`, `domain: <domain from BRAND_PROFILE.md>` — volume, clicks, trend
 - `get-keywords-top-brands-agg` with `keyword`, `limit: 10` — who dominates this keyword
 - `get-keywords-top-products-agg` with `keyword`, `limit: 10` — which products rank highest
 - `get-keywords-performance` with `granularity: "monthly"` — demand trend over time
@@ -36,17 +36,17 @@ Load `BRAND_PROFILE.md`. Based on argument:
 
 Quick keyword gap scan — category vs brand.
 
-- `get-categories-top-keywords-agg` with `category`, `domain: "amazon.com"`, `limit: 50`, `start_date`, `end_date` — what the market searches for
-- `get-brands-top-keywords-agg` with user's `brand`, `category`, `domain: "amazon.com"`, `limit: 50`, `start_date`, `end_date` — what user is visible for
+- `get-categories-top-keywords-agg` with `category`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 50`, `start_date`, `end_date` — what the market searches for
+- `get-brands-top-keywords-agg` with user's `brand`, `category`, `domain: <domain from BRAND_PROFILE.md>`, `limit: 50`, `start_date`, `end_date` — what user is visible for
 - Find category keywords where user has no presence — list the top 10 gaps by category rank
-- For each gap keyword, `get-keywords-top-brands-agg` with `keyword`, `domain: "amazon.com"` to assess competition difficulty
+- For each gap keyword, `get-keywords-top-brands-agg` with `keyword`, `domain: <domain from BRAND_PROFILE.md>` to assess competition difficulty
 - Score and rank opportunities: high demand + low competition = best bets
 
 **For comprehensive gap analysis**: Load `skills/keyword-gap/SKILL.md` and run the full keyword gap analysis. This includes competitor-level gaps, ASIN-level gaps, trend-based scoring, and tiered prioritization. Offer this to the user: "I found X keyword gaps in the quick scan. Would you like me to run a comprehensive keyword gap analysis that also compares against your competitors and maps gaps to specific ASINs?"
 
 ### 2D. ASIN keyword drivers
 
-- `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 30` for trend data, or `get-products-top-keywords-agg` for an aggregated snapshot.
+- `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `limit: 30` for trend data, or `get-products-top-keywords-agg` for an aggregated snapshot.
 - Classify by share: owned (>10%), competitive (3-10%), trailing (<3%)
 - `get-categories-top-keywords-agg` to find category keywords missing from ASIN
 - Recommend keywords to target in listing optimization or advertising

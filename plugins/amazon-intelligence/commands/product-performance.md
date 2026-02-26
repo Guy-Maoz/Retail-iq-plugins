@@ -18,15 +18,15 @@ Analyze product-level performance on Amazon.
 
 ### 1. Determine scope
 
-Load `BRAND_PROFILE.md`. Based on argument:
+Load `BRAND_PROFILE.md` (brand, category, competitors, domain). Based on argument:
 - **Specific ASIN** (e.g., B0XXXXXXXXX): Deep-dive on that product
 - **"portfolio"** or no argument: Overview of all tracked ASINs
 - **Competitor brand name**: Analyze that competitor's top products
 
 ### 2A. ASIN deep-dive
 
-- `get-products-sales-performance` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `granularity: "monthly"` — revenue, units, price over time (use latest month as snapshot)
-- `get-products-top-keywords` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `limit: 20` — keyword drivers
+- `get-products-sales-performance` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `granularity: "monthly"` — revenue, units, price over time (use latest month as snapshot)
+- `get-products-top-keywords` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `limit: 20` — keyword drivers
 - For trends: the time-series data already includes monthly data points
 - Find competing products: use top keywords to call `get-keywords-top-products-agg`
 
@@ -34,7 +34,7 @@ Present: sales snapshot, trend chart narrative, keyword health, competitive posi
 
 ### 2B. Portfolio review
 
-- Use `get-brands-top-products-agg` with `brand`, `category` (numeric ID), `domain: "amazon.com"`, `limit: 20` — returns all products with revenue, units, price, rating in one call
+- Use `get-brands-top-products-agg` with `brand`, `category` (numeric ID), `domain: <domain from BRAND_PROFILE.md>`, `limit: 20` — returns all products with revenue, units, price, rating in one call
 - For deeper per-ASIN trends, call `get-products-sales-performance` (time-series) with explicit dates for each priority ASIN
 - Rank by: revenue, units, growth rate
 - Classify each ASIN:

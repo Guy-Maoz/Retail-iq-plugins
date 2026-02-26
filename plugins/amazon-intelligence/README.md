@@ -44,7 +44,7 @@ This plugin gives ecommerce teams an AI-powered Amazon intelligence partner that
 ## Getting Started
 
 1. Run `/setup` to configure your brand profile
-2. Enter your brand name, primary category, tracked ASINs, and competitors
+2. Select your Amazon marketplace, enter your brand name, primary category, tracked ASINs, and competitors
 3. The setup wizard auto-discovers competitors using SimilarWeb audience overlap data
 4. Start analyzing with any command — all results are personalized to your brand context
 
@@ -57,7 +57,18 @@ This plugin uses the **SimilarWeb MCP** for Amazon Shopper Intelligence data cov
 - On-site search keyword performance, top brands per keyword, top products per keyword
 - ASIN-level sales performance and keyword traffic drivers
 
-All data is for the **US marketplace** (amazon.com) by default.
+Supports 6 Amazon marketplaces: US, UK, France, Germany, Canada, and Italy. Configure your marketplace during `/setup`.
+
+### Supported Marketplaces
+
+| Marketplace | Domain |
+|------------|--------|
+| Amazon US | amazon.com |
+| Amazon UK | amazon.co.uk |
+| Amazon France | amazon.fr |
+| Amazon Germany | amazon.de |
+| Amazon Canada | amazon.ca |
+| Amazon Italy | amazon.it |
 
 **Optional connectors:**
 - Slack — for sharing reports and getting team context

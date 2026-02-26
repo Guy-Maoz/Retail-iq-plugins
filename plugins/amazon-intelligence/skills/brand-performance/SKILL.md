@@ -5,7 +5,7 @@ description: Amazon brand-level performance monitoring using SimilarWeb Shopper 
 
 # Brand Performance
 
-Monitor and analyze Amazon brand performance using SimilarWeb Shopper Intelligence. Always load `BRAND_PROFILE.md` first for brand and category context.
+Monitor and analyze Amazon brand performance using SimilarWeb Shopper Intelligence. Always load `BRAND_PROFILE.md` first for brand, category, and domain context.
 
 ## Core analyses
 
@@ -13,9 +13,9 @@ Monitor and analyze Amazon brand performance using SimilarWeb Shopper Intelligen
 
 Comprehensive snapshot of brand performance.
 
-1. Read `BRAND_PROFILE.md` for brand, category, competitors
-2. Call `get-brands-sales-performance-agg` with `brand`, `category`, `domain: "amazon.com"` for sales metrics
-3. Call `get-clicks-share-agg` with `brand`, `category`, `domain: "amazon.com"` for search share
+1. Read `BRAND_PROFILE.md` for brand, category, competitors, and domain
+2. Call `get-brands-sales-performance-agg` with `brand`, `category`, `domain: <domain from BRAND_PROFILE.md>` for sales metrics
+3. Call `get-clicks-share-agg` with `brand`, `category`, `domain: <domain from BRAND_PROFILE.md>` for search share
 4. Call `get-brands-top-products-agg` with `brand`, `category`, `limit: 10` for product portfolio
 5. Call `get-brands-top-keywords-agg` with `brand`, `category`, `limit: 10` for keyword health
 6. Present dashboard: revenue, units, market share, search share, top products, top keywords
@@ -45,7 +45,7 @@ Deep analysis of brand visibility in on-site search.
 Identify best and worst performing products within the brand.
 
 1. Call `get-brands-top-products-agg` with `brand`, `category`, `limit: 20`
-2. For each product, call `get-products-sales-performance` (time-series) with `asin`, `domain: "amazon.com"`, `start_date`, `end_date`, `granularity: "monthly"` for trend data, or `get-products-sales-performance-agg` for an aggregated snapshot.
+2. For each product, call `get-products-sales-performance` (time-series) with `asin`, `domain: <domain from BRAND_PROFILE.md>`, `start_date`, `end_date`, `granularity: "monthly"` for trend data, or `get-products-sales-performance-agg` for an aggregated snapshot.
 3. Classify products by contribution: top 20% by revenue, middle, bottom
 4. Identify products with declining performance that need attention
 5. Cross-reference with keyword data — are underperforming products losing keyword share?

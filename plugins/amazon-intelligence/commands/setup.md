@@ -16,31 +16,63 @@ Initialize or update the brand profile used by all Amazon Intelligence skills.
 
 ## Workflow
 
-### 1. Identify the brand
+### 1. Select marketplace
+
+Ask the user which Amazon marketplace they want to analyze:
+
+| # | Marketplace | Domain |
+|---|------------|--------|
+| 1 | Amazon US | amazon.com |
+| 2 | Amazon UK | amazon.co.uk |
+| 3 | Amazon France | amazon.fr |
+| 4 | Amazon Germany | amazon.de |
+| 5 | Amazon Canada | amazon.ca |
+| 6 | Amazon Italy | amazon.it |
+
+"Which Amazon marketplace do you sell on? (Enter 1–6, or type a domain name)"
+
+Default to Amazon US (1) if the user says "US" or does not specify.
+
+Use this mapping to resolve the country code:
+
+| Domain | Country |
+|--------|---------|
+| amazon.com | us |
+| amazon.co.uk | gb |
+| amazon.fr | fr |
+| amazon.de | de |
+| amazon.ca | ca |
+| amazon.it | it |
+
+Store the selected domain and country code — use them in **all** API calls below.
+
+> **Note**: If you change your marketplace later, re-run `/setup` because category IDs, brand IDs, and competitor data are marketplace-specific.
+
+### 2. Identify the brand
 
 If the user provided a brand name as an argument, use it. Otherwise ask:
 - "What is your brand name on Amazon?"
 
-Search for the brand using `get-brands-search` with `domain: "amazon.com"` and the brand name as `search_term`. Present the top matches and ask the user to confirm.
+Search for the brand using `get-brands-search` with `domain: <selected domain>` and the brand name as `search_term`. Present the top matches and ask the user to confirm.
 
 Save the confirmed brand name.
 
-### 2. Identify the primary category
+### 3. Identify the primary category
 
 Ask: "What category does your brand primarily compete in?"
 
-Search for the category using `get-categories-search` with `domain: "amazon.com"` and the user's answer as `search_term`. Present matching categories with their full path and **numeric category_id**. Ask the user to confirm.
+Search for the category using `get-categories-search` with `domain: <selected domain>` and the user's answer as `search_term`. Present matching categories with their full path and **numeric category_id**. Ask the user to confirm.
 
 **Critical**: Save the `category_id` (e.g., `"679255011"`) — this is required for all brand-level API calls.
 
-### 3. Discover ASINs automatically
+### 4. Discover ASINs automatically
 
 Instead of asking the user to paste ASINs manually, auto-discover them:
 
 Call `get-brands-top-products-agg` with:
 - `brand`: confirmed brand name
 - `category`: confirmed category_id (numeric)
-- `domain`: `"amazon.com"`
+- `domain`: <selected domain>
 - `limit`: 20
 
 This returns the brand's top products with ASIN, name, revenue, units_sold, price, and rating. Present the list and ask:
@@ -50,7 +82,7 @@ For any additional ASINs the user provides, validate them using product calls:
 ```
 get-products-sales-performance with:
   asin: "<ASIN>"
-  domain: "amazon.com"
+  domain: <selected domain>
   start_date: "<6 months ago, YYYY-MM>"
   end_date: "<current month, YYYY-MM>"
   granularity: "monthly"
@@ -60,14 +92,14 @@ You can also use `get-products-sales-performance-agg` for a quick aggregated sna
 
 Build the ASIN table in `BRAND_PROFILE.md` from both auto-discovered and manually-added ASINs.
 
-### 4. Identify competitors
+### 5. Identify competitors
 
 Two approaches — use both:
 
 **Auto-discover**: Call `get-brands-top-competitors-agg` with:
 - `brand`: user's brand
 - `category`: category_id (numeric)
-- `domain`: `"amazon.com"`
+- `domain`: <selected domain>
 
 Present the top 5-10 brands with highest audience overlap and ask which are direct competitors.
 
@@ -75,7 +107,7 @@ Present the top 5-10 brands with highest audience overlap and ask which are dire
 
 Search for manually-added brands via `get-brands-search` to confirm their names.
 
-### 5. Confirm and save
+### 6. Confirm and save
 
 Present a summary of the full brand profile and ask for confirmation. Write the final `BRAND_PROFILE.md` to the plugin directory with this structure:
 
@@ -86,7 +118,10 @@ Present a summary of the full brand profile and ask for confirmation. Write the 
 - **Name**: <brand>
 - **Category**: <category name>
 - **Category ID**: <numeric category_id>
-- **Marketplace**: amazon.com (US)
+
+## Marketplace
+- **Domain**: <selected domain>
+- **Country**: <selected country code>
 
 ## My ASINs
 | ASIN | Product Name | Revenue | Units | Price | Rating |
@@ -103,7 +138,7 @@ Present a summary of the full brand profile and ask for confirmation. Write the 
 - **Granularity**: monthly
 ```
 
-### 6. Quick health check
+### 7. Quick health check
 
 Run a quick validation using the confirmed category_id:
 

@@ -1,6 +1,6 @@
 # SimilarWeb MCP Tools Reference
 
-Quick reference for all SimilarWeb Amazon Intelligence MCP tools used by this plugin. All tools use `domain: "amazon.com"` for the US marketplace.
+Quick reference for all SimilarWeb Amazon Intelligence MCP tools used by this plugin. All tools require a `domain` parameter — read the domain from `BRAND_PROFILE.md` (e.g., `"amazon.com"` for US, `"amazon.de"` for Germany).
 
 ## Critical rules
 
@@ -60,7 +60,7 @@ Both variants work for all tool types, including product (ASIN) tools.
 
 | Parameter | Values | Notes |
 |-----------|--------|-------|
-| `domain` | `"amazon.com"` | Always use for US marketplace |
+| `domain` | `"amazon.com"`, `"amazon.co.uk"`, `"amazon.fr"`, `"amazon.de"`, `"amazon.ca"`, `"amazon.it"` | Read from BRAND_PROFILE.md Marketplace section |
 | `granularity` | `"daily"`, `"weekly"`, `"monthly"` | Monthly recommended for trends |
 | `limit` | 1-100 | Number of results to return |
 | `offset` | 0+ | For pagination |

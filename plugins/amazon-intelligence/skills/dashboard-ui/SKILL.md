@@ -114,7 +114,7 @@ Every report uses this outer structure:
   <header class="dash-header">
     <div class="dash-header-left">
       <div class="sw-logo">similarweb</div>
-      <span class="dash-badge">Amazon Intelligence</span>
+      <span class="dash-badge">Amazon Intelligence — {{Marketplace label from BRAND_PROFILE.md, e.g., "amazon.de"}}</span>
     </div>
     <div class="dash-header-right">
       <span class="dash-date">{{Generated date}}</span>

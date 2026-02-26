@@ -11,11 +11,11 @@ Generate a brand health monitoring report with key changes and alerts.
 
 ### 1. Set time frame
 
-Load `BRAND_PROFILE.md`. If an argument specifies a time period, use it. Default to the last 3 months with monthly granularity.
+Load `BRAND_PROFILE.md` (brand, category, competitors, domain). If an argument specifies a time period, use it. Default to the last 3 months with monthly granularity.
 
 ### 2. Brand performance trends
 
-- `get-brands-sales-performance` with `brand`, `category`, `domain: "amazon.com"`, `granularity: "monthly"` — revenue and unit trends
+- `get-brands-sales-performance` with `brand`, `category`, `domain: <domain from BRAND_PROFILE.md>`, `granularity: "monthly"` — revenue and unit trends
 - `get-clicks-share` with `brand`, `category`, `granularity: "monthly"` — search share trend
 - Calculate period-over-period changes for all metrics
 

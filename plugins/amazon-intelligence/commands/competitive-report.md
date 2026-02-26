@@ -11,18 +11,18 @@ Generate a competitive intelligence report against one or all tracked competitor
 
 ### 1. Scope the analysis
 
-Load `BRAND_PROFILE.md`. If an argument was provided, focus on that specific competitor. Otherwise, analyze all competitors from the profile.
+Load `BRAND_PROFILE.md` (brand, category, competitors, domain). If an argument was provided, focus on that specific competitor. Otherwise, analyze all competitors from the profile.
 
 Ask the user:
 - "Do you want a full competitive landscape or a deep-dive on a specific competitor?"
 
-If competitor isn't in the profile, use `get-brands-search` with `domain: "amazon.com"` to find them.
+If competitor isn't in the profile, use `get-brands-search` with `domain: <domain from BRAND_PROFILE.md>` to find them.
 
 ### 2. Competitive landscape (all competitors)
 
 For user's brand and each competitor, pull in parallel:
-- `get-brands-sales-performance-agg` with `category`, `domain: "amazon.com"` — revenue, units
-- `get-clicks-share-agg` with `category`, `domain: "amazon.com"` — search share
+- `get-brands-sales-performance-agg` with `category`, `domain: <domain from BRAND_PROFILE.md>` — revenue, units
+- `get-clicks-share-agg` with `category`, `domain: <domain from BRAND_PROFILE.md>` — search share
 
 Build a comparison table: brand, revenue, units, search share, avg price.
 

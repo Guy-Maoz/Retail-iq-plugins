@@ -27,8 +27,8 @@
 
 ## Marketplace
 
-- **Domain**: amazon.com
-- **Country**: us
+- **Domain**: <!-- populated during setup, e.g., amazon.com, amazon.de, amazon.co.uk -->
+- **Country**: <!-- populated during setup, e.g., us, de, gb -->
 
 ## Analysis Preferences
 

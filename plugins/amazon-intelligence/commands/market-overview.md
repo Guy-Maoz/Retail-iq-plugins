@@ -11,9 +11,9 @@ Generate a comprehensive market overview for an Amazon category.
 
 ### 1. Determine category
 
-If an argument was provided, search for that category. Otherwise, load `BRAND_PROFILE.md` and use the primary category. If neither exists, ask the user.
+If an argument was provided, search for that category. Otherwise, load `BRAND_PROFILE.md` (brand, category, domain) and use the primary category. If neither exists, ask the user.
 
-Use `get-categories-search` with `domain: "amazon.com"` to resolve the category ID.
+Use `get-categories-search` with `domain: <domain from BRAND_PROFILE.md>` to resolve the category ID.
 
 ### 2. Pull category data
 
