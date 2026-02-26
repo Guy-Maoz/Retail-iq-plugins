@@ -16,6 +16,10 @@ Initialize or update the brand profile used by all Amazon Intelligence skills.
 
 ## Workflow
 
+### 0. Resolve target folder
+
+Before writing any files, resolve the **target folder** using the logic in `skills/memory/SKILL.md` → "Resolve target folder". Use the working folder if available, otherwise fall back to the session folder. All files below (BRAND_PROFILE.md, CLAUDE.md, memory/) are written to the target folder.
+
 ### 1. Select marketplace
 
 Ask the user which Amazon marketplace they want to analyze:
@@ -109,7 +113,7 @@ Search for manually-added brands via `get-brands-search` to confirm their names.
 
 ### 6. Confirm and save
 
-Present a summary of the full brand profile and ask for confirmation. Read the brand profile template from `skills/memory/references/brand-profile-template.md` and write the populated `BRAND_PROFILE.md` to the **working folder** (not the plugin directory) with this structure:
+Present a summary of the full brand profile and ask for confirmation. Read the brand profile template from `skills/memory/references/brand-profile-template.md` and write the populated `BRAND_PROFILE.md` to the **target folder** (not the plugin directory) with this structure:
 
 ```markdown
 # Brand Profile
@@ -152,9 +156,9 @@ Present a "Brand snapshot" as a welcome report so the user immediately sees valu
 
 1. Ask: "Save analyses with methodology logs? (recommended: yes)" → determines auto-save setting
 2. Ask: "Review analyses for quality? (Always / Ask me / Off)" → determines review mode
-3. Read the working folder's `CLAUDE.md`, append or update the `## Amazon Intelligence Settings` section with the chosen values plus marketplace from step 1. Use the settings format defined in `skills/memory/SKILL.md`.
-4. Create the `memory/` directory with an empty `INDEX.md` in the working folder (use the index format from `skills/memory/SKILL.md`).
+3. Read the target folder's `CLAUDE.md` (create it if it doesn't exist), append or update the `## Amazon Intelligence Settings` section with the chosen values plus marketplace from step 1. Use the settings format defined in `skills/memory/SKILL.md`.
+4. Create the `memory/` directory with an empty `INDEX.md` in the target folder (use the index format from `skills/memory/SKILL.md`).
 
 ## Output
 
-Updated `BRAND_PROFILE.md` in the working folder, `## Amazon Intelligence Settings` section in `CLAUDE.md`, initialized `memory/INDEX.md`, plus a quick brand snapshot dashboard.
+Updated `BRAND_PROFILE.md` in the target folder, `## Amazon Intelligence Settings` section in `CLAUDE.md`, initialized `memory/INDEX.md`, plus a quick brand snapshot dashboard.

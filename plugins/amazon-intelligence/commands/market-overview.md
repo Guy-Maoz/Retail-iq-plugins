@@ -56,7 +56,7 @@ Structure the output as:
 
 1. Read CLAUDE.md settings. If "Auto-save reports" is true:
    a. Load the memory skill (`skills/memory/SKILL.md`)
-   b. Run Save Report — create `reports/YYYY-MM-DD-market-overview/` in the working folder, save `report.html` and `methodology.md`, update `memory/INDEX.md`
+   b. Run Save Report — resolve the target folder (working folder preferred, session folder as fallback), create `reports/YYYY-MM-DD-market-overview/`, save `report.html` and `methodology.md`, update `memory/INDEX.md`
 2. If auto-save is false, skip.
 
 ### Review (conditional)

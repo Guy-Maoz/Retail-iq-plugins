@@ -24,7 +24,7 @@ A plugin marketplace for [Claude Code](https://docs.anthropic.com/en/docs/claude
 ## Plugin Categories
 
 ### Analytics
-- **amazon-intelligence** — Full Amazon Shopper Intelligence suite powered by SimilarWeb data. Competitive benchmarking, keyword strategy, keyword gap analysis, category analysis, ASIN tracking, and brand monitoring for ecommerce teams.
+- **amazon-intelligence** — Full Amazon Shopper Intelligence suite powered by SimilarWeb data. Competitive benchmarking, keyword strategy, keyword gap analysis, category analysis, ASIN tracking, brand monitoring, and analysis memory management with methodology audit trails for ecommerce teams.
 
 ## Installation Options
 
@@ -86,6 +86,7 @@ similarweb-plugins/
       .mcp.json               # MCP server connections
       commands/               # Slash commands
       skills/                 # Skills (domain knowledge)
+      agents/                 # Sub-agents (e.g., review-agent)
       references/             # Reference docs for the plugin
       README.md               # Plugin documentation
   scripts/

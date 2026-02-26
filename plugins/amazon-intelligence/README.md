@@ -54,7 +54,7 @@ This plugin gives ecommerce teams an AI-powered Amazon intelligence partner that
 1. Run `/setup` to configure your brand profile
 2. Select your Amazon marketplace, enter your brand name, primary category, tracked ASINs, and competitors
 3. The setup wizard auto-discovers competitors using SimilarWeb audience overlap data
-4. Configure analysis settings — auto-save reports and review mode are stored in your project's `CLAUDE.md`
+4. Configure analysis settings — auto-save reports and review mode are stored in your project's `CLAUDE.md` (falls back to session folder if no working folder exists)
 5. Start analyzing with any command — all results are personalized to your brand context
 6. Use `/memory` to browse past analyses, review methodology, or clean up old reports
 

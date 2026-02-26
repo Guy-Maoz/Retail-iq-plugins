@@ -1,17 +1,28 @@
 ---
 name: memory
-description: Memory management for Amazon Intelligence. Handles saving analysis reports with methodology audit trails, managing the analysis index, and reading/writing plugin settings in the working folder's CLAUDE.md. Use when any command needs to save results, log methodology, read past analyses, or manage settings. Also use when the user asks about past reports, analysis history, or plugin settings.
+description: Memory management for Amazon Intelligence. Handles saving analysis reports with methodology audit trails, managing the analysis index, and reading/writing plugin settings in CLAUDE.md. Use when any command needs to save results, log methodology, read past analyses, or manage settings. Also use when the user asks about past reports, analysis history, or plugin settings.
 ---
 
 # Memory Management
 
-Manage analysis reports, methodology logs, the analysis index, and plugin settings. All runtime data lives in the **working folder** (the Cowork project directory), never in the plugin itself.
+Manage analysis reports, methodology logs, the analysis index, and plugin settings. All runtime data lives in the **target folder**, never in the plugin itself.
 
-## File layout (in the working folder)
+## Resolve target folder
+
+Before any read or write operation, determine the **target folder** — where all runtime data (CLAUDE.md, BRAND_PROFILE.md, memory/, reports/) lives:
+
+1. **Working folder** (preferred): If the user has a Cowork project with a dedicated working folder, use it. The working folder is persistent across sessions and typically contains a `CLAUDE.md` already.
+2. **Session folder** (fallback): If no working folder exists (e.g., the user started a standalone session without creating a project), use the session folder instead.
+
+**How to detect**: Check if a working folder path is available in the session context. If it is and the directory exists, use it. Otherwise, fall back to the session folder.
+
+All references to "target folder" below mean whichever folder was resolved by this step. Every command and skill that uses memory must resolve the target folder first.
+
+## File layout (in the target folder)
 
 ```
-working-folder/
-  CLAUDE.md                          # Project settings (already exists in Cowork)
+target-folder/
+  CLAUDE.md                          # Project settings (already exists in working folders; created if missing)
   BRAND_PROFILE.md                   # Brand identity (written by /setup)
   memory/
     INDEX.md                         # Analysis run log (newest first)
@@ -23,7 +34,7 @@ working-folder/
 
 ## Settings management (CLAUDE.md)
 
-The working folder's CLAUDE.md is loaded automatically by Cowork each session. The plugin manages an `## Amazon Intelligence Settings` section within it.
+The target folder's CLAUDE.md is loaded automatically by Cowork each session (when using a working folder). The plugin manages an `## Amazon Intelligence Settings` section within it. If CLAUDE.md does not exist in the target folder, create it.
 
 ### Settings block format
 
@@ -45,7 +56,7 @@ The working folder's CLAUDE.md is loaded automatically by Cowork each session. T
 
 ### Read settings
 
-1. Load the working folder's `CLAUDE.md`
+1. Load the target folder's `CLAUDE.md`
 2. Find the `## Amazon Intelligence Settings` section
 3. Parse values from the markdown list items
 4. If the section doesn't exist, use defaults: auto-save true, review mode ask, retention 6 months
@@ -67,7 +78,7 @@ Called at the end of every analysis command when auto-save is true.
 1. Read CLAUDE.md settings — check if "Auto-save reports" is true. If false, skip entirely.
 2. Determine the report folder name: `reports/YYYY-MM-DD-<command-name>/`
    - If the folder already exists (same command run twice today), append a counter: `-2`, `-3`, etc.
-3. Create the report folder in the working directory.
+3. Create the report folder in the target folder.
 4. Save the HTML dashboard as `report.html` in that folder.
 5. Generate `methodology.md` in that folder (see format below).
 6. Append an entry to `memory/INDEX.md` (create the `memory/` directory and INDEX.md if they don't exist — see Initialize memory).
@@ -168,7 +179,7 @@ Load two methodology files side-by-side. Useful for comparing scope, findings, o
 
 When any Save Report operation runs and `memory/INDEX.md` does not exist:
 
-1. Create the `memory/` directory in the working folder
+1. Create the `memory/` directory in the target folder
 2. Create `memory/INDEX.md` with the empty table header template
 3. Proceed with the save operation
 
@@ -183,4 +194,4 @@ After saving a report, check the "Review mode" setting in CLAUDE.md:
 
 ## Brand profile template
 
-The brand profile template is stored at `skills/memory/references/brand-profile-template.md`. The `/setup` command reads this template and writes the populated version as `BRAND_PROFILE.md` in the working folder.
+The brand profile template is stored at `skills/memory/references/brand-profile-template.md`. The `/setup` command reads this template and writes the populated version as `BRAND_PROFILE.md` in the target folder.

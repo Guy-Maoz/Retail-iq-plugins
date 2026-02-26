@@ -9,6 +9,10 @@ Browse and manage your analysis history.
 
 ## Workflow
 
+### 0. Resolve target folder
+
+Resolve the **target folder** using the logic in `skills/memory/SKILL.md` → "Resolve target folder". Use the working folder if available, otherwise fall back to the session folder. All paths below (memory/, reports/, CLAUDE.md, BRAND_PROFILE.md) are relative to the target folder.
+
 ### 1. Determine action
 
 Based on argument:
@@ -19,7 +23,7 @@ Based on argument:
 
 ### 2A. List analysis history (default)
 
-Load `memory/INDEX.md` from the working folder.
+Load `memory/INDEX.md` from the target folder.
 
 If the file doesn't exist: "No analysis history found. Run any analysis command (e.g., /competitive-report) to start building your history."
 
@@ -46,7 +50,7 @@ Find the matching report folder (same matching logic as show).
 
 Load the report's `methodology.md`. Invoke the review agent (`agents/review-agent.md`) on it, passing:
 - The methodology.md content
-- `BRAND_PROFILE.md` from the working folder
+- `BRAND_PROFILE.md` from the target folder
 - Review scope from CLAUDE.md settings
 
 The review agent appends its findings to the methodology.md and updates `memory/INDEX.md`.
