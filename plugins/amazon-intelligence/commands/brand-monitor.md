@@ -68,6 +68,20 @@ Automatically flag:
 
 **Recommended actions**: Specific next steps based on the data
 
+### Save to memory
+
+1. Read CLAUDE.md settings. If "Auto-save reports" is true:
+   a. Load the memory skill (`skills/memory/SKILL.md`)
+   b. Run Save Report — create `reports/YYYY-MM-DD-brand-monitor/` in the working folder, save `report.html` and `methodology.md`, update `memory/INDEX.md`
+2. If auto-save is false, skip.
+
+### Review (conditional)
+
+1. Read CLAUDE.md "Review mode" setting.
+2. If "always": invoke the review agent (`agents/review-agent.md`) on the `methodology.md` just created.
+3. If "ask": prompt the user "Would you like me to review this analysis for methodology gaps?"
+4. If "off": skip.
+
 ## Follow-up offers
 
 - Deep-dive on any alert

@@ -71,6 +71,20 @@ After presenting keyword intel results, offer relevant deeper analyses:
 - **From portfolio analysis**: "Want to see where competitors beat you on shared keywords?" → Load `skills/keyword-gap/SKILL.md`, run Analysis 1
 - **From keyword deep-dive**: "Should I check if this keyword represents a broader gap in your strategy?" → Load `skills/keyword-gap/SKILL.md`, run Analysis 4 for this keyword in context
 
+### Save to memory
+
+1. Read CLAUDE.md settings. If "Auto-save reports" is true:
+   a. Load the memory skill (`skills/memory/SKILL.md`)
+   b. Run Save Report — create `reports/YYYY-MM-DD-keyword-intel/` in the working folder, save `report.html` and `methodology.md`, update `memory/INDEX.md`
+2. If auto-save is false, skip.
+
+### Review (conditional)
+
+1. Read CLAUDE.md "Review mode" setting.
+2. If "always": invoke the review agent (`agents/review-agent.md`) on the `methodology.md` just created.
+3. If "ask": prompt the user "Would you like me to review this analysis for methodology gaps?"
+4. If "off": skip.
+
 ## Output format
 
 Use tables for keyword data. Sort by opportunity size. Always include actionable recommendations tied to specific keywords.

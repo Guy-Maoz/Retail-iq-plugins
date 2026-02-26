@@ -19,7 +19,7 @@ A plugin marketplace for [Claude Code](https://docs.anthropic.com/en/docs/claude
 
 | Plugin | Description | Commands | Skills |
 |--------|-------------|----------|--------|
-| **[amazon-intelligence](plugins/amazon-intelligence/)** | Amazon category trends, competitive landscape, keyword opportunities, product performance, and brand health | 6 | 7 |
+| **[amazon-intelligence](plugins/amazon-intelligence/)** | Amazon category trends, competitive landscape, keyword opportunities, product performance, and brand health | 7 | 8 |
 
 ## Plugin Categories
 

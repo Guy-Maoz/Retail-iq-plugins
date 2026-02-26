@@ -27,7 +27,7 @@
       "name": "amazon-intelligence",
       "source": "./plugins/amazon-intelligence",
       "description": "SimilarWeb Amazon Intelligence for ecommerce teams. Analyze category trends, competitive landscape, keyword opportunities, product performance, and brand health on Amazon.",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "author": {
         "name": "SimilarWeb"
       },
@@ -41,7 +41,8 @@
         "keyword-gap-analysis",
         "category-trends",
         "asin-tracking",
-        "brand-monitoring"
+        "brand-monitoring",
+        "memory-management"
       ],
       "category": "analytics"
     }

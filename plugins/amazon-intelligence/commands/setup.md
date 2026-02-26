@@ -109,7 +109,7 @@ Search for manually-added brands via `get-brands-search` to confirm their names.
 
 ### 6. Confirm and save
 
-Present a summary of the full brand profile and ask for confirmation. Write the final `BRAND_PROFILE.md` to the plugin directory with this structure:
+Present a summary of the full brand profile and ask for confirmation. Read the brand profile template from `skills/memory/references/brand-profile-template.md` and write the populated `BRAND_PROFILE.md` to the **working folder** (not the plugin directory) with this structure:
 
 ```markdown
 # Brand Profile
@@ -148,6 +148,13 @@ Run a quick validation using the confirmed category_id:
 
 Present a "Brand snapshot" as a welcome report so the user immediately sees value. Use the `dashboard-ui` skill to render it as a branded HTML dashboard.
 
+### 8. Configure plugin settings
+
+1. Ask: "Save analyses with methodology logs? (recommended: yes)" → determines auto-save setting
+2. Ask: "Review analyses for quality? (Always / Ask me / Off)" → determines review mode
+3. Read the working folder's `CLAUDE.md`, append or update the `## Amazon Intelligence Settings` section with the chosen values plus marketplace from step 1. Use the settings format defined in `skills/memory/SKILL.md`.
+4. Create the `memory/` directory with an empty `INDEX.md` in the working folder (use the index format from `skills/memory/SKILL.md`).
+
 ## Output
 
-Updated `BRAND_PROFILE.md` in the plugin directory, plus a quick brand snapshot dashboard.
+Updated `BRAND_PROFILE.md` in the working folder, `## Amazon Intelligence Settings` section in `CLAUDE.md`, initialized `memory/INDEX.md`, plus a quick brand snapshot dashboard.

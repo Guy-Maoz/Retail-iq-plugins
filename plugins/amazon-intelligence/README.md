@@ -23,12 +23,13 @@ This plugin gives ecommerce teams an AI-powered Amazon intelligence partner that
 
 | Command | What It Does |
 |---|---|
-| `/setup` | Set up your brand profile — ASINs, competitors, and categories |
+| `/setup` | Set up your brand profile — ASINs, competitors, categories, and plugin settings |
 | `/market-overview` | Full market overview of your Amazon category |
 | `/competitive-report` | Deep-dive competitive analysis against your competitors |
 | `/keyword-intel` | Keyword opportunity analysis — portfolio, gaps, or single keyword |
 | `/product-performance` | ASIN-level performance analysis and portfolio review |
 | `/brand-monitor` | Brand health monitoring report with alerts |
+| `/memory` | Browse analysis history — past reports, methodology logs, and review results |
 
 ## Skills
 
@@ -40,13 +41,22 @@ This plugin gives ecommerce teams an AI-powered Amazon intelligence partner that
 | `category-intelligence` | Category sizing, trend analysis, brand concentration, consumer demand signals |
 | `product-analytics` | ASIN performance, portfolio classification, competitive product comparison |
 | `brand-performance` | Brand health dashboard, trend analysis, search share, portfolio optimization |
+| `memory` | Report saving, methodology logging, settings management, analysis index |
+
+## Agents
+
+| Agent | What It Does |
+|---|---|
+| `review-agent` | Audits completed analyses — checks methodology, data coverage, and assumptions against brand profile |
 
 ## Getting Started
 
 1. Run `/setup` to configure your brand profile
 2. Select your Amazon marketplace, enter your brand name, primary category, tracked ASINs, and competitors
 3. The setup wizard auto-discovers competitors using SimilarWeb audience overlap data
-4. Start analyzing with any command — all results are personalized to your brand context
+4. Configure analysis settings — auto-save reports and review mode are stored in your project's `CLAUDE.md`
+5. Start analyzing with any command — all results are personalized to your brand context
+6. Use `/memory` to browse past analyses, review methodology, or clean up old reports
 
 ## Data Sources
 
